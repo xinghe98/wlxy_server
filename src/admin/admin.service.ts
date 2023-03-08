@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from 'nestjs-typegoose';
+import { users } from './admin.model';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
-
+import { ReturnModelType } from '@typegoose/typegoose';
 @Injectable()
 export class AdminService {
-  create(createAdminDto: CreateAdminDto) {
-    return 'This action adds a new admin';
+  constructor(
+    @InjectModel(users)
+    private readonly usersmodel: ReturnModelType<typeof users>,
+  ) {}
+  async create(createAdminDto: CreateAdminDto) {
+    const user = new this.usersmodel(createAdminDto);
+    return await user.save();
   }
 
   findAll() {
