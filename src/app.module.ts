@@ -3,12 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AdminModule } from './admin/admin.module';
 import { TypegooseModule } from 'nestjs-typegoose';
+import { config } from '../conf/config';
 
 @Module({
-  imports: [
-    TypegooseModule.forRoot('mongodb://root:root@64.27.6.146:1998/admin', {}),
-    AdminModule,
-  ],
+  imports: [TypegooseModule.forRoot(config.MONGO_URL, {}), AdminModule],
   controllers: [AppController],
   providers: [AppService],
 })
